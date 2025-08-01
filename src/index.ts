@@ -1,8 +1,17 @@
 import {ApplicationConfig, DigitaiCheckoutApplication} from './application';
+import * as dotenv from 'dotenv';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
+  // Determinar la ruta del archivo .env a cargar
+  const envPath = `.env_${process.env.NODE_ENV || 'development'}`;
+  
+  // Cargar las variables de entorno desde el archivo correspondiente
+  dotenv.config({ path: envPath });
+
+  console.log(`Loading environment from: ${envPath}`);
+
   const app = new DigitaiCheckoutApplication(options);
   await app.boot();
   await app.start();
